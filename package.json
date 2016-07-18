@@ -1,0 +1,20 @@
+{
+  "name": "dmv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.0",
+    "color": "^0.11.3",
+    "cron": "^1.1.0",
+    "lwip": "0.0.9",
+    "moment": "^2.14.1",
+    "mysql": "^2.11.1",
+    "request": "^2.73.0"
+  }
+}

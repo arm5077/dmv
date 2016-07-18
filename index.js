@@ -11,21 +11,21 @@ var fs = require("fs");
 // These are the URLs to the camera feeds
 var cameras = [
   {
-    url: "http://localhost:8000/test3.jpg",
+    url: "https://ftp.dmv.washingtondc.gov/w/gt1/video.jpg",
     start: 90,
-    rate_of_change: 1.024,
+    rate_of_change: .976,
     empty_seats: 38
   },
   {
     url: "https://ftp.dmv.washingtondc.gov/w/gt2/video.jpg",
     start: 100,
-    rate_of_change: 1.031,
+    rate_of_change: .969,
     empty_seats: 9
   },
   {
     url: "https://ftp.dmv.washingtondc.gov/w/gt4/video.jpg",
     start: 0,
-    rate_of_change: 1.017,
+    rate_of_change: .983,
     empty_seats: 24
   }
 ];
@@ -83,26 +83,18 @@ new CronJob('* * * * *', function() {
       lwip.open(body, 'jpeg', function(err, image){
   			if(err) throw err;
 
-  		  var exportFile = "";
+        // Like above, set the total amount of blue detected to zero
   			var blue = 0;
-
-  			// Cycle through each pixel;
   			for(y = camera.start; y <= 239; y++){
-  			  exportFile += "<div>"
   				for( x = 0; x <= 319; x++){
   				  hsv = getHSV(image);
             pixelScore = y - camera.start * camera.rate_of_change;
   					blue += (hsv.h >=220 && hsv.h <= 240 && hsv.s > 30 && hsv.v > 30) ? pixelScore : 0;
-
-  					color = (hsv.h >=220 && hsv.h <= 240 && hsv.s > 30 && hsv.v > 30) ? "red" : "rgb(" + image.getPixel(x,y).r + ", " + image.getPixel(x,y).g + ", " + image.getPixel(x,y).b + ")";
-            exportFile += "<div style='width: 2px; height: 2px; display: inline-block; background-color:" + color + "'></div>";
   				}
-  				exportFile += "</div>";
   			}
         camera.percentBlue = blue / camera.controlBlue;
   			totalEmptySeats += camera.percentBlue * camera.empty_seats;
   			console.log("Camera " + (i+1) + ": " + camera.percentBlue);
-  			fs.writeFile(i + ".html", exportFile);
   			callback();
       });
     });

@@ -1,0 +1,1 @@
+For more information on this project, read the [blog entry.](http://www.andrewmcgill.me/2016/07/18/make-every-week-dmv-tracker.html)
